@@ -15,13 +15,13 @@ class Client
 
 	public:
 		
-		bool isRegistred();
 		std::string getNick();
 		bool isJoinded(std::string name);
-
+		
 		void addChannel(Channel *channel);
 		void removeChannel(std::string name);
-
+		
+		bool isRegistred();
 		
 };
 

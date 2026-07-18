@@ -9,6 +9,8 @@ class Channel
 		std::string name;
 		std::string topic;
 		std::vector<Client *> clients;
+		std::map<int, Client*> clientFds;
+		std::map<std::string, Client*> ClientNick;
 		std::vector<Client *> operators;
 		std::vector<Client *> invetedClients;
 
@@ -18,9 +20,6 @@ class Channel
 		bool changeTopic;
 		bool hasKey;
 		bool haslimit;
-
-
-
 
 	public:
 		
@@ -36,5 +35,23 @@ class Channel
 		bool isInvited(Client *client);
 		bool isMember(Client *client);
 
+		void changeKey(bool value);
+		void changelimit(bool value);
+		void changetopic(bool value);
+		void changeReqInvit(bool value);
+
+		void addMember(Client *client);
+		void addInvited(Client *client);
+		void addOperator(Client *client);
 		
+		void removeClient(Client *client);
+		void removeOperator(Client *client);
+		void removeInvited(Client *client);
+
+		void setTopic(std::string &topic);
+		void setKey(std::string key);
+		void setLimit(size_t limit);
+
+		
+
 };
