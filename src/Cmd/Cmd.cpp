@@ -34,7 +34,7 @@ void JoinCmd::execute(cmdCtx &ctx)
 	}
 	if (channel.hasKey())
 	{
-		if()
+		if(ctx.params.size())
 	}
 }
 
