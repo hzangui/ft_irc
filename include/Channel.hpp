@@ -22,7 +22,8 @@ class Channel
 		bool haslimit;
 
 	public:
-		
+		Channel(std::string &name);	
+
 		bool hasKey();
 		bool hasLimit();
 		bool reqInvite();

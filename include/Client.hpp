@@ -16,12 +16,17 @@ class Client
 	public:
 		
 		std::string getNick();
-		bool isJoinded(std::string name);
+		int getsocket();
+		bool isRegistred();
+		bool isJoinded(std::string channel);
 		
+		void setNick(std::string &nick);
+		void setRegister(bool value);
+		void setUsername(std::string &username);
+		void setSocket(int fd);
+
 		void addChannel(Channel *channel);
 		void removeChannel(std::string name);
-		
-		bool isRegistred();
 		
 };
 
