@@ -5,8 +5,7 @@ ACmd::ACmd(Server &server, bool reqRegister) : server(server), reqRegister(reqRe
 {
 }
 
-JoinCmd::JoinCmd(Server &Server) : ACmd(Server, true)
-{}
+
 
 
 

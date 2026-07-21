@@ -27,6 +27,7 @@ class ACmd
 		bool reqRegister;
 
 	public:
+		static std::vector split(std::string &str, char del);
 		ACmd(Server &server, bool reqRegister);
 		virtual void execute(cmdCtx &ctx) = 0;
 };

@@ -1,5 +1,7 @@
 #include "../../include/Cmd.hpp"
 
+JoinCmd::JoinCmd(Server &Server) : ACmd(Server, true)
+{}
 
 
 void JoinCmd::creatNewChannel(Client *client, std::string &channelName)
