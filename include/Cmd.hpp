@@ -31,7 +31,7 @@ class ACmd
 		virtual void execute(cmdCtx &ctx) = 0;
 };
 
-class JoinCmd : public ACmd
+class JoinCmd : public ACmd // almost finish
 {
 	private:
 		void creatNewChannel(Client *client, std::string &channelName);
@@ -53,7 +53,7 @@ class PrvmsgCmd : public ACmd
 		void execute(cmdCtx &ctx);
 };
 
-class PartCmd : public ACmd
+class PartCmd : public ACmd //almost finish
 {
 	private:
 		/* data */

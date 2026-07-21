@@ -31,6 +31,7 @@ class Channel
 
 		std::string getKey();
 		size_t getLimit();
+		size_t getSize();
 
 		bool isOperator(Client *client);
 		bool isInvited(Client *client);

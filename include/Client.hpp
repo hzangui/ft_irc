@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
-#include "Channel.hpp"
+// #include "Channel.hpp"
+
+class Channel{};
 
 class Client
 {
@@ -11,6 +13,8 @@ class Client
 		std::vector <Channel*> channels;
 		std::map<std::string, Channel*> channelName;
 		std::string username;
+		std::string bufferIN;
+		std::string bufferOUT;
 		bool registred;
 
 	public:
