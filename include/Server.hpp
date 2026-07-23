@@ -1,30 +1,82 @@
 #pragma once
-#include <vector>
+
 #include <map>
 #include <string>
-#include "Client.hpp"
-#include "Channel.hpp"
-#include "Cmd.hpp"
+
+class Client;
+class Channel;
+class ACmd;
 
 class Server
 {
-	private:
-		int port;
-		std::vector<Client> clients;
-		std::vector<Channel> channels;
-		std::map<std::string, Channel*> channelNames;
-		std::string password;
-		std::map<std::string, ACmd*> cmds;
+private:
 
-	public:
-		Server();
-		~Server();
-		void cmdDispatcher(Client *client, std::string rowCmd);
+    //==========================
+    // Network
+    //==========================
 
-		Channel *addChannel(Channel &channel);
-		Channel *getChannel(std::string &channelName);
-		bool existChannel(std::string &channelName);
+    int _listenFd;
+    int _epollFd;
+    int _port;
 
+    std::string _password;
 
+    //==========================
+    // Clients
+    //==========================
+
+    std::map<int, Client*> _clientsByFd;
+    std::map<std::string, Client*> _clientsByNick;
+
+    //==========================
+    // Channels
+    //==========================
+
+    std::map<std::string, Channel*> _channels;
+
+    //==========================
+    // Commands
+    //==========================
+
+    std::map<std::string, ACmd*> _commands;
+
+public:
+
+    Server(int port, const std::string &password);
+    ~Server();
+
+    //==========================
+    // Command dispatcher
+    //==========================
+
+    void dispatchCommand(Client *client,
+                         const std::string &command);
+
+    //==========================
+    // Client lookup
+    //==========================
+
+    Client *findClient(int fd) const;
+
+    Client *findClient(const std::string &nick) const;
+
+    bool nicknameExists(const std::string &nick) const;
+
+    //==========================
+    // Channel lookup
+    //==========================
+
+    Channel *findChannel(const std::string &name) const;
+
+    bool channelExists(const std::string &name) const;
+
+    Channel *createChannel(const std::string &name);
+
+    void removeChannel(Channel *channel);
+
+    //==========================
+    // Getters
+    //==========================
+
+    const std::string &getPassword() const;
 };
-

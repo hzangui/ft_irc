@@ -1,37 +1,87 @@
 #pragma once
+
 #include <string>
 #include <vector>
-// #include "Channel.hpp"
 
-class Channel{};
+class Channel;
 
 class Client
 {
-	private:
-		int socket;
-		std::string nick;
-		std::vector <Channel*> channels;
-		std::map<std::string, Channel*> channelName;
-		std::string username;
-		std::string bufferIN;
-		std::string bufferOUT;
-		bool registred;
+private:
+    // ===== Connection =====
+    int _fd;
 
-	public:
-		
-		std::string getNick();
-		int getsocket();
-		bool isRegistred();
-		bool isJoinded(std::string channel);
-		
-		void setNick(std::string &nick);
-		void setRegister(bool value);
-		void setUsername(std::string &username);
-		void setSocket(int fd);
+    // ===== Registration =====
+    bool _registered;
+    bool _passAccepted;
 
-		void addChannel(Channel *channel);
-		void removeChannel(std::string name);
-		
+    // ===== User =====
+    std::string _nickname;
+    std::string _username;
+    std::string _realname;
+    std::string _hostname;
+
+    // ===== Network =====
+    std::string _recvBuffer;
+    std::string _sendBuffer;
+
+    // ===== Joined Channels =====
+    std::vector<Channel*> _channels;
+
+public:
+    Client(int fd);
+    ~Client();
+
+    //==========================
+    // Getters
+    //==========================
+
+    int getFd() const;
+
+    const std::string &getNickname() const;
+    const std::string &getUsername() const;
+    const std::string &getRealname() const;
+    const std::string &getHostname() const;
+
+    bool isRegistered() const;
+    bool passAccepted() const;
+
+    const std::vector<Channel*> &getChannels() const;
+
+    const std::string &getRecvBuffer() const;
+    const std::string &getSendBuffer() const;
+
+    //==========================
+    // Setters
+    //==========================
+
+    void setNickname(const std::string &nick);
+    void setUsername(const std::string &user);
+    void setRealname(const std::string &realname);
+    void setHostname(const std::string &hostname);
+
+    void setRegistered(bool value);
+    void setPassAccepted(bool value);
+
+    //==========================
+    // Buffers
+    //==========================
+
+    void appendRecvBuffer(const std::string &data);
+    void appendSendBuffer(const std::string &data);
+
+    bool getNextCommand(std::string &command);
+
+    void clearSendBuffer();
+
+    //==========================
+    // Channels
+    //==========================
+
+    void joinChannel(Channel *channel);
+    void leaveChannel(Channel *channel);
+
+    bool isInChannel(const std::string &name) const;
+
+    Channel *findChannel(const std::string &name) const;
 };
-
-

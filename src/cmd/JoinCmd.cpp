@@ -1,4 +1,4 @@
-#include "../../include/Cmd.hpp"
+#include "../../include/cmd/JoinCmd.hpp"
 
 JoinCmd::JoinCmd(Server &Server) : ACmd(Server, true)
 {}
@@ -30,35 +30,50 @@ bool isValidChannelName(std::string& name)
     return true;
 }
 
-void JoinCmd::joinChannel(cmdCtx &ctx)
+void JoinCmd::joinChannel(Client *client, std::string &channelName, std::string &key)
 {
-	Channel *channel = server.getChannel(ctx.params[0]);
+	Channel *channel = server.getChannel(channelName);
 
 	if(channel->hasLimit() && channel->getSize() >= channel->getLimit())
 	{
 		// can't join
 	}
-	else if(channel->reqInvite() && !channel->isInvited(ctx.client))	
+	else if(channel->reqInvite() && !channel->isInvited(client))	
 	{
 		//is not invited;
 	}
-	else if(channel->hasKey() && (ctx.params.size() < 2 || ctx.params[1] != channel->getKey()))
+	else if(channel->hasKey() && key != channel->getKey())
 	{
 		//key invalid;
 	}
 	else
 	{
-		channel->addMember(ctx.client);
+		channel->addMember(client);
+		// msg
 	}
 	
 }
 
 void JoinCmd::execute(cmdCtx &ctx)
 {
-	if (!server.existChannel(ctx.params[0]))
+	std::vector<std::string> channelsNames = split(ctx.params[0], ',');
+	std::vector<std::string> keys;
+	
+	if (ctx.params.size() > 1)
+		keys = split(ctx.params[1], ',');
+	
+	if (keys.size() < channelsNames.size())
 	{
-		creatNewChannel(ctx.client, ctx.params[0]);
-		return;
+		for(int i = 0; i < channelsNames.size(); i++)
+			keys.push_back(std::string(""));
 	}
-	joinChannel(ctx);
+	for(int i = 0; i < channelsNames.size(); i++)
+	{
+		if (!server.existChannel(channelsNames[i]))
+		{
+			creatNewChannel(ctx.client, channelsNames[i]);
+			return;
+		}
+		joinChannel(ctx.client, channelsNames[i], keys[i]);
+	}
 }
