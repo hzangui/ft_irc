@@ -1,5 +1,8 @@
 #pragma once
 
+#include "ACmd.hpp"
+
+
 class PrvmsgCmd : public ACmd
 {
 	private:

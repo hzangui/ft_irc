@@ -1,38 +1,37 @@
 #include "../../include/cmd/InviteCmd.hpp"
+#include "../../include/Server.hpp"
+#include "../../include/Channel.hpp"
+#include "../../include/Client.hpp"
 
 InviteCmd::InviteCmd(Server &server) : ACmd(server, true)
 {}
 
-Channel *InviteCmd::checkChannel(Client *client, std::string &channelName)
-{
-	Channel *channel = server.getChannel(channelName);
-	if (!channel)
-	{
-		return NULL;
-	}
-	if(!channel->isMember(client))
-	{
-		return NULL;
-	}
-	if(channel->reqInvite() && !channel->isOperator(client))
-	{
-		return NULL;
-	}
-}
+
 
 void InviteCmd::execute(cmdCtx &ctx)
 {
-	Channel *channel;
-	
-	if (!server.existChannel(ctx.params[1]))
+	Client *invited = server.findClient(ctx.params[0]);
+	Channel *channel = server.findChannel(ctx.params[1]);
+	if (!invited)
 	{
-		channel
+		//invited not existe;
 	}
-	if (!ctx.client->isJoinded(ctx.params[1]))
+	if (!channel)
 	{
-		//you not member of channel;
-		return;
+		//channel not existe;
 	}
-	if (!ctx.c)
-
+	if (!ctx.client->isInChannel(ctx.params[0]));
+	{
+		//you not in the channel
+	}
+	if (channel->inviteOnly() && !channel->isOperator(ctx.client))
+	{
+		// need operator permission;
+	}
+	if (channel->isMember(invited))
+	{
+		// already is in the channel;
+	}
+	channel->addInvited(invited);
+	// send msgs;
 }

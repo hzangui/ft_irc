@@ -1,10 +1,15 @@
 #pragma once
+#include "../../include/cmd/KickCmd.hpp"
+#include "../../include/Server.hpp"
+#include "../../include/Channel.hpp"
+#include "../../include/Client.hpp"
 
-class KickCmd : public ACmd
+
+KickCmd::KickCmd(Server &server) : ACmd(server, true)
 {
-	private:
-		/* data */
-	public:
-		KickCmd(Server &Server);
-		void execute(cmdCtx &ctx);
-};
+}
+
+void KickCmd::execute(cmdCtx &ctx)
+{
+
+}

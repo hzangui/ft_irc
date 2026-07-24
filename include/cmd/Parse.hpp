@@ -1,5 +1,10 @@
 #pragma once
 
+#include <string>
+
+struct cmdCtx {};
+class Client {};
+
 class Parse
 {
 	private:

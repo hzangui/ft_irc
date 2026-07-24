@@ -1,5 +1,10 @@
 #pragma once
 
+#include "ACmd.hpp"
+
+class Client {};
+class Channel {};
+
 class ModeCmd : public ACmd
 {
 	private:

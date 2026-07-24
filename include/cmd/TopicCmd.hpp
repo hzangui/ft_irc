@@ -1,5 +1,8 @@
 #pragma once
 
+#include "ACmd.hpp"
+
+
 class TopicCmd : public ACmd
 {
 	private:

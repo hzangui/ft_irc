@@ -1,4 +1,8 @@
 #include "../../include/cmd/JoinCmd.hpp"
+#include "../../include/Server.hpp"
+#include "../../include/Channel.hpp"
+#include "../../include/Client.hpp"
+
 
 JoinCmd::JoinCmd(Server &Server) : ACmd(Server, true)
 {}
@@ -11,9 +15,9 @@ void JoinCmd::creatNewChannel(Client *client, std::string &channelName)
 		// invalid name;
 		return;
 	}
-	Channel channel(channelName);
-	channel.addMember(client);
-	channel.addOperator(client);
+	Channel *channel = server.createChannel(channelName);
+	channel->addMember(client);
+	channel->addOperator(client);
 	// chennel added;
 }
 
@@ -32,13 +36,13 @@ bool isValidChannelName(std::string& name)
 
 void JoinCmd::joinChannel(Client *client, std::string &channelName, std::string &key)
 {
-	Channel *channel = server.getChannel(channelName);
+	Channel *channel = server.findChannel(channelName);
 
-	if(channel->hasLimit() && channel->getSize() >= channel->getLimit())
+	if(channel->hasLimit() && channel->size() >= channel->getLimit())
 	{
 		// can't join
 	}
-	else if(channel->reqInvite() && !channel->isInvited(client))	
+	else if(channel->inviteOnly() && !channel->isInvited(client))	
 	{
 		//is not invited;
 	}
@@ -69,7 +73,7 @@ void JoinCmd::execute(cmdCtx &ctx)
 	}
 	for(int i = 0; i < channelsNames.size(); i++)
 	{
-		if (!server.existChannel(channelsNames[i]))
+		if (!server.channelExists(channelsNames[i]))
 		{
 			creatNewChannel(ctx.client, channelsNames[i]);
 			return;

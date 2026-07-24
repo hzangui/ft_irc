@@ -113,5 +113,4 @@ public:
 
     void broadcast(const std::string &message);
 
-    void broadcast(const std::string &message, Client *except);
 };

@@ -2,6 +2,9 @@
 
 #include "ACmd.hpp"
 
+class Client {};
+class Channel {};
+
 class InviteCmd : public ACmd
 {
 	private:

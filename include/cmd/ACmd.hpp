@@ -3,7 +3,17 @@
 #include <vector>
 #include <string>
 #include <sstream>
-#include "../Server.hpp"
+
+class Server{};
+
+struct cmdCtx
+{
+	Client *client;
+	std::string cmdName;
+	std::vector<std::string> params;
+	std::string lastArg;
+};
+
 
 class ACmd
 {

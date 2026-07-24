@@ -1,8 +1,9 @@
 #pragma once
 
-#include "../../include/cmd/ACmd.hpp"
-#include "../../include/Client.hpp"
-#include "../../include/Channel.hpp"
+#include "ACmd.hpp"
+
+class Client {};
+class Channel {};
 
 class JoinCmd : public ACmd // almost finish
 {
